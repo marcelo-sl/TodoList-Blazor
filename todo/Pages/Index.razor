@@ -1,0 +1,50 @@
+﻿@page "/"
+
+<h1 class="uk-margin-medium-top">Lista de Tarefas</h1>
+
+<div class="uk-margin">
+    <div class="uk-inline uk-width-1-1">
+        <input class="uk-input uk-form-large uk-width-1-1" placeholder="Nova Tarefa" @bind="newTodo" />
+        <button class="uk-form-icon uk-form-icon-flip" uk-icon="icon: plus-circle" @onclick="AddNewTask"></button>
+    </div>
+</div>
+
+<ul class="uk-list uk-list-divider uk-list-large">
+    @foreach (var item in todos)
+    {
+        <li class="uk-width-1-1 uk-flex">
+            <label class="uk-flex-1">
+                <input type="checkbox" class="uk-checkbox" @bind="item.IsDone" /> @item.Title
+            </label>
+            <a href="#" class="uk-icon-link" uk-icon="trash" uk-tooltip="Excluir @item.Title"
+            @onclick="() => RemoveTask(item.Id)"></a>
+        </li>
+    }
+</ul>
+
+@code {
+    public class TodoItem
+    {
+        public Guid Id { get; set; }
+        public string Title { get; set; }
+        public bool IsDone { get; set; }
+    }
+
+    private string newTodo = "";
+    private List<TodoItem> todos = new List<TodoItem>();
+
+    public void AddNewTask()
+    {
+        if (!string.IsNullOrWhiteSpace(newTodo))
+        {
+            todos.Add(new TodoItem { Id = Guid.NewGuid(), Title = newTodo });
+            newTodo = "";
+        }
+    }
+
+    public void RemoveTask(Guid id)
+    {
+        TodoItem t = todos.Single(x => x.Id == id);
+        todos.Remove(t);
+    }
+}
