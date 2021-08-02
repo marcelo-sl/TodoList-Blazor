@@ -4,10 +4,18 @@
 
 <div class="uk-margin">
     <div class="uk-inline uk-width-1-1">
-        <input class="uk-input uk-form-large uk-width-1-1" placeholder="Nova Tarefa" @bind="newTodo" />
-        <button class="uk-form-icon uk-form-icon-flip" uk-icon="icon: plus-circle" @onclick="AddNewTask"></button>
+        <form @onsubmit="AddNewTask">
+            <input class="uk-input uk-form-large uk-width-1-1" placeholder="Nova Tarefa" @bind="newTodo" />
+            <button class="uk-form-icon uk-form-icon-flip" uk-icon="icon: plus-circle" @onclick="AddNewTask"></button>
+        </form>
     </div>
 </div>
+
+@if (todos.Count > 1)
+{
+    <button class="uk-button uk-button-danger" uk-tooltip="Excluir todas tarefas" @onclick="RemoveAllTasks">Limpar</button>
+
+}
 
 <ul class="uk-list uk-list-divider uk-list-large">
     @foreach (var item in todos)
@@ -46,5 +54,10 @@
     {
         TodoItem t = todos.Single(x => x.Id == id);
         todos.Remove(t);
+    }
+
+    public void RemoveAllTasks()
+    {
+        todos.Clear();
     }
 }
