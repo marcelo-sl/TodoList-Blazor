@@ -14,7 +14,8 @@
 @if (todos.Count > 1)
 {
     <button class="uk-button uk-button-danger" uk-tooltip="Excluir todas tarefas" @onclick="RemoveAllTasks">Limpar</button>
-
+    <button class="uk-button uk-button-secondary" uk-tooltip="Finalizar todas tarefas"
+    @onclick="DoneAllTasks">Finalizar</button>
 }
 
 <ul class="uk-list uk-list-divider uk-list-large">
@@ -59,5 +60,10 @@
     public void RemoveAllTasks()
     {
         todos.Clear();
+    }
+
+    public void DoneAllTasks()
+    {
+        todos.ForEach(x => x.IsDone = true);
     }
 }
